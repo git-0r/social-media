@@ -17,7 +17,7 @@ export const { saveUser, logout } = authSlice.actions;
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://social-srvr.herokuapp.com"
+    ? "https://social-srvr.herokuapp.com/auth"
     : "http://localhost:3003/auth";
 
 export const signup = (credentials) => (dispatch) => {
