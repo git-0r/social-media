@@ -1,9 +1,0 @@
-export { Email } from "./Email";
-export { Password } from "./Password";
-export { Privacypolicy } from "./Privacypolicy";
-export { Signupbutton } from "./Signupbutton";
-export { Loginbutton } from "./Loginbutton";
-export { Rememberme } from "./Rememberme";
-export { Name } from "./Name";
-export { Username } from "./Username";
-export { GuestLoginButton } from "./GuestLoginButton";
