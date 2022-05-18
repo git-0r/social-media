@@ -24,9 +24,7 @@ export const authSlice = createSlice({
       state.status = "pending";
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      const { bookmarks, ...others } = action.payload;
-      state.user = others;
-      state.bookmarks = bookmarks;
+      state.user = action.payload;
       state.status = "fulfilled";
     });
     builder.addCase(login.rejected, (state, action) => {
@@ -36,9 +34,7 @@ export const authSlice = createSlice({
       state.status = "pending";
     });
     builder.addCase(signup.fulfilled, (state, action) => {
-      const { bookmarks, ...others } = action.payload;
-      state.user = others;
-      state.bookmarks = bookmarks;
+      state.user = action.payload;
       state.status = "fulfilled";
     });
     builder.addCase(signup.rejected, (state, action) => {
