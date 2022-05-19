@@ -98,6 +98,7 @@ const Name = styled.p`
 const LogoutButton = styled.button`
   background: transparent;
   border: none;
+  color: inherit;
   cursor: pointer;
 `;
 

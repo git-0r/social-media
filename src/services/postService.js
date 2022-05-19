@@ -1,12 +1,12 @@
 import { fetchFeed } from "../redux/feedSlice";
-import { BASE_URL, token } from "./index";
+import { BASE_URL } from "./index";
 
 export const postService = async ({ formData, userId }, thunkAPI) => {
   const response = await fetch(`${BASE_URL}/post/${userId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: token,
+      Authorization: "Bearer " + localStorage.getItem("token"),
     },
     body: JSON.stringify(formData),
   });

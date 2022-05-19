@@ -1,11 +1,11 @@
-import { BASE_URL, token } from "./index";
+import { BASE_URL } from "./index";
 
 export const bookmarkService = async ({ postId, userId }) => {
   const response = await fetch(`${BASE_URL}/bookmark/${userId}`, {
     method: "Post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: token,
+      Authorization: "Bearer " + localStorage.getItem("token"),
     },
     body: JSON.stringify({ postId }),
   });
@@ -17,7 +17,7 @@ export const fetchBookmarksService = async ({ userId }) => {
   const response = await fetch(`${BASE_URL}/bookmark/${userId}`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token,
+      Authorization: "Bearer " + localStorage.getItem("token"),
     },
   });
   const data = await response.json();

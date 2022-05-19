@@ -1,4 +1,4 @@
-import { BASE_URL, token } from "./index";
+import { BASE_URL } from "./index";
 
 export const feedService = async ({ userId, type }, thunkAPI) => {
   const skip = thunkAPI.getState().feed.skip;
@@ -7,7 +7,7 @@ export const feedService = async ({ userId, type }, thunkAPI) => {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: "Bearer " + localStorage.getItem("token"),
       },
     }
   );
