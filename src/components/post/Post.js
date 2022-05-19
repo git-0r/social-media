@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDaysCount } from "../../hooks/useDaysCount";
+import { fetchPostService } from "../../services/postService";
+import Bookmark from "./components/Bookmark";
+import Like from "./components/Like";
 
 const Post = ({ data }) => {
-  const { username, post } = data;
+  const { username, postId } = data;
   const [content, setContent] = useState();
   const daysCount = useDaysCount(content?.createdAt);
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/post/` + post);
-      const data = await res.json();
+    async function fetchPost() {
+      const data = await fetchPostService(postId);
       setContent(data);
-    })();
-  }, []);
+    }
+    fetchPost();
+  }, [postId]);
+
   return (
     <PostWrapper>
       <PostContainer>
@@ -27,11 +31,10 @@ const Post = ({ data }) => {
           </UserAvatarContainer>
           <Name>
             <FullName>
-              {content?.firstname ?? (
-                <PlaceholderText>"loading..."</PlaceholderText>
-              )}{" "}
-              {content?.lastname ?? (
-                <PlaceholderText>"loading..."</PlaceholderText>
+              {content ? (
+                content?.firstname + " " + content?.lastname
+              ) : (
+                <PlaceholderText>loading...</PlaceholderText>
               )}
             </FullName>
             <Username>@{username}</Username>
@@ -46,14 +49,10 @@ const Post = ({ data }) => {
           {content?.content ?? <PlaceholderText>"loading..."</PlaceholderText>}
         </PostContent>
         <PostIcons>
-          <ion-icon name="heart-outline" size="large"></ion-icon>
+          <Like postId={postId} />
           <ion-icon name="chatbubble-outline" size="large"></ion-icon>
           <ion-icon name="paper-plane-outline" size="large"></ion-icon>
-          <ion-icon
-            style={{ marginLeft: "auto" }}
-            name="bookmark-outline"
-            size="large"
-          ></ion-icon>
+          <Bookmark postId={postId} />
         </PostIcons>
         <DayPosted>{daysCount}</DayPosted>
       </PostContainer>

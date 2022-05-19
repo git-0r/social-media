@@ -1,24 +1,30 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./authSlice";
 import feedReducer from "./feedSlice";
-import postReducer from "./createPostSlice";
+import postReducer from "./postSlice";
+import bookmarksReducer from "./bookmarkSlice";
+import likesReducer from "./likeSlice";
 
 const localState = JSON.parse(localStorage.getItem("state"));
 const preloadedState = {
   ...localState,
   feed: { content: [], status: "idle", skip: 0, hasMore: -1 },
+  bookmarks: { content: {}, status: "idle" },
+  likes: { content: {}, status: "idle" },
+  post: { status: "idle" },
 };
 
 const combinedReducer = combineReducers({
   auth: userReducer,
   feed: feedReducer,
-  createPost: postReducer,
+  post: postReducer,
+  bookmarks: bookmarksReducer,
+  likes: likesReducer,
 });
 
 const rootReducer = (state, action) => {
   if (action.type === "auth/logout") {
     state = undefined;
-    localStorage.clear();
   }
   return combinedReducer(state, action);
 };

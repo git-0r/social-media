@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { logout } from "../../redux/authSlice";
 
@@ -10,24 +11,37 @@ const HomeLeft = () => {
     dispatch(logout());
   };
 
+  const menuOptions = [
+    {
+      icon: "home",
+      content: "Home",
+      url: "/",
+    },
+    {
+      icon: "planet",
+      content: "Explore",
+      url: "/explore",
+    },
+    {
+      icon: "person",
+      content: "Profile",
+      url: `/${username}`,
+    },
+    {
+      icon: "ellipsis-horizontal",
+      content: "More",
+      url: "#",
+    },
+  ];
+
   return (
     <ContainerLeft>
-      <MenuOption>
-        <ion-icon name="home" size="large"></ion-icon>
-        Home
-      </MenuOption>
-      <MenuOption>
-        <ion-icon name="planet" size="large"></ion-icon>
-        Explore
-      </MenuOption>
-      <MenuOption>
-        <ion-icon name="person" size="large"></ion-icon>
-        Profile
-      </MenuOption>
-      <MenuOption>
-        <ion-icon name="ellipsis-horizontal" size="large"></ion-icon>
-        More
-      </MenuOption>
+      {menuOptions.map(({ icon, content, url }) => (
+        <MenuOption to={url} key={icon}>
+          <ion-icon name={icon} size="large"></ion-icon>
+          {content}
+        </MenuOption>
+      ))}
       <Logout>
         <Avatar loading="lazy" src="https://picsum.photos/50" alt="avatar" />
         <UsernameWrapper>
@@ -84,10 +98,11 @@ const Name = styled.p`
 const LogoutButton = styled.button`
   background: transparent;
   border: none;
+  color: inherit;
   cursor: pointer;
 `;
 
-const MenuOption = styled.div`
+const MenuOption = styled(Link)`
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -97,5 +112,7 @@ const MenuOption = styled.div`
   font-weight: 500;
   border-radius: 1rem;
   cursor: pointer;
+  color: inherit;
+  text-decoration: none;
   background-color: ${({ theme }) => theme.bgThird};
 `;

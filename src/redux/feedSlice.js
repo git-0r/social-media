@@ -1,28 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { feedService } from "../services/feedService";
 
 export const fetchFeed = createAsyncThunk(
   "feed/fetchFeed",
-  async ({ userId, type }, thunkAPI) => {
-    const skip = thunkAPI.getState().feed.skip;
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/feed/` +
-        userId +
-        `/?skip=${type === "nextpage" ? skip : 0}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    const data = await response.json();
-    return { ...data, reqType: type };
-  },
+  async (data, thunkAPI) => await feedService(data, thunkAPI),
   {
-    condition: (userId, { getState, extra }) => {
+    condition: (data, { getState, extra }) => {
       const hasMore = getState()?.feed?.hasMore;
       const status = getState()?.feed?.status;
-      if (Number(hasMore) === 0) {
+
+      if (Number(hasMore) === 0 && data.type === "nextpage") {
         console.log("This is last page!");
         return false;
       }

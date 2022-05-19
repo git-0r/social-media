@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import PostInput from "./PostInput";
 import { useState } from "react";
-import { post } from "../../redux/createPostSlice";
 import SubmitButton from "./SubmitButton";
+import { create } from "../../redux/postSlice";
 
 const CreatePost = () => {
   const { username, firstname, lastname, _id } = useSelector(
@@ -18,7 +18,7 @@ const CreatePost = () => {
     formData.username = username;
     formData.firstname = firstname;
     lastname && (formData.lastname = lastname);
-    dispatch(post({ userId: _id, formData }));
+    dispatch(create({ userId: _id, formData }));
     setInputValue("");
   };
   const updateInputValue = (e) => setInputValue(e.target.value);

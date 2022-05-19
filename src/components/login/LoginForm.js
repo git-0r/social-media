@@ -18,7 +18,7 @@ export const LoginForm = () => {
   const submitLoginForm = (e) => {
     e.preventDefault();
     if (e.target.value === "guestLogin") {
-      dispatch(login({ email: "abd@email.com", password: "dutt@Abd1" }));
+      dispatch(login({ email: "abd@email.com", password: "abd@Abhishek0" }));
     } else {
       const formData = Object.fromEntries(new FormData(e.target));
       dispatch(login(formData));

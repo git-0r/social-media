@@ -1,41 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { loginService, signupService } from "../services/authService";
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (credentials, thunkAPI) => {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      }
-    );
-    const { accessToken, ...others } = await response.json();
-    localStorage.setItem("token", JSON.stringify(accessToken));
-    return others;
-  }
+  async (credentials, thunkAPI) => await loginService(credentials, thunkAPI)
 );
 
 export const signup = createAsyncThunk(
   "auth/signup",
-  async (credentials, thunkAPI) => {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/auth/signup`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      }
-    );
-    const { accessToken, ...others } = await response.json();
-    localStorage.setItem("token", JSON.stringify(accessToken));
-    return others;
-  }
+  async (credentials, thunkAPI) => await signupService(credentials, thunkAPI)
 );
 
 export const authSlice = createSlice({
@@ -55,7 +28,7 @@ export const authSlice = createSlice({
       state.status = "fulfilled";
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.status = "rejected";
+      state.auth = { user: null, status: "rejected" };
     });
     builder.addCase(signup.pending, (state, action) => {
       state.status = "pending";
@@ -65,7 +38,7 @@ export const authSlice = createSlice({
       state.status = "fulfilled";
     });
     builder.addCase(signup.rejected, (state, action) => {
-      state.status = "rejected";
+      state.auth = { user: null, status: "rejected" };
     });
   },
 });
