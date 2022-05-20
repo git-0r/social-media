@@ -1,22 +1,21 @@
 import styled from "styled-components";
 import HomeLeft from "../components/home/HomeLeft";
 import { HomeRight } from "../components/home/HomeRight";
-import CreatePost from "../components/create-post/CreatePost";
-import Feed from "../components/home/Feed";
+import ExploreFeed from "../components/explore/ExploreFeed";
 
-export const Home = () => {
+const Explore = () => {
   return (
     <Wrapper>
       <HomeLeft />
       <HomeCenter>
-        <CreatePost />
-        <Feed />
+        <ExploreFeed />
       </HomeCenter>
       <HomeRight />
-      {/* <EditPost /> */}
     </Wrapper>
   );
 };
+
+export default Explore;
 
 const Wrapper = styled.main`
   display: grid;

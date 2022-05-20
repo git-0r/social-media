@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchExploreFeed } from "../redux/exploreFeedSlice";
 import { fetchFeed } from "../redux/feedSlice";
 
-export const useInfiniteScroll = () => {
+export const useInfiniteScroll = (page) => {
   const { _id } = useSelector((state) => state?.auth?.user);
   const dispatch = useDispatch();
 
@@ -12,12 +13,16 @@ export const useInfiniteScroll = () => {
       new IntersectionObserver((entries) => {
         entries.forEach((en) => {
           if (en.intersectionRatio > 0) {
-            dispatch(fetchFeed({ userId: _id, type: "nextpage" }));
+            if (page === "home") {
+              dispatch(fetchFeed({ userId: _id, type: "nextpage" }));
+            } else if (page === "explore") {
+              dispatch(fetchExploreFeed({ userId: _id, type: "nextpage" }));
+            }
           }
         });
       }).observe(node);
     },
-    [dispatch, _id]
+    [dispatch, _id, page]
   );
 
   useEffect(() => {

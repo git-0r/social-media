@@ -28,6 +28,27 @@ export const feedSlice = createSlice({
       state.content.unshift(action.payload);
       state.skip = state.skip + 1;
     },
+    updateEditedPost: (state, action) => {
+      state.content = state.content.map((post) =>
+        post._id !== action.payload._id ? post : action.payload
+      );
+    },
+    removeFromFeed: (state, action) => {
+      state.content = state?.content?.filter(
+        (post) => post?._id !== action.payload?.postId
+      );
+      state.skip -= 1;
+    },
+    sortFeed: (state, action) => {
+      if (action.payload.by === "Recent") {
+        state.content = state.content.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      }
+      if (action.payload.by === "Trending") {
+        state.content = state.content.sort((a, b) => b.likes - a.likes);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchFeed.pending, (state, action) => {
@@ -35,14 +56,14 @@ export const feedSlice = createSlice({
     });
     builder.addCase(fetchFeed.fulfilled, (state, action) => {
       if (action.payload.reqType === "nextpage") {
-        state.content = state.content.concat(action.payload.feed);
-        state.skip = state.skip + Number(action.payload.feed.length);
+        state.content = state.content.concat(action.payload?.feed);
+        state.skip = state.skip + Number(action.payload?.feed?.length);
         state.hasMore = Number(action.payload.hasMore);
       }
       if (action.payload.reqType === "refresh") {
-        state.content = action.payload.feed;
-        state.skip = Number(action.payload.feed.length);
-        state.hasMore = action.payload.hasMore;
+        state.content = action.payload?.feed;
+        state.skip = Number(action.payload?.feed?.length);
+        state.hasMore = action.payload?.hasMore;
       }
       state.status = "fulfilled";
     });
@@ -52,5 +73,6 @@ export const feedSlice = createSlice({
   },
 });
 
-export const { updateFeed } = feedSlice.actions;
+export const { updateFeed, sortFeed, removeFromFeed, updateEditedPost } =
+  feedSlice.actions;
 export default feedSlice.reducer;

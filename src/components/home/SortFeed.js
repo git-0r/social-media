@@ -1,10 +1,16 @@
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { sortFeed } from "../../redux/feedSlice";
 
 const SortFeed = () => {
+  const dispatch = useDispatch();
+  const sortPosts = (e) => {
+    dispatch(sortFeed({ by: e.target.value }));
+  };
   return (
-    <Select>
-      <Option>Recent</Option>
-      <Option>Trending</Option>
+    <Select onChange={sortPosts}>
+      <Option value="Recent">Recent</Option>
+      <Option value="Trending">Trending</Option>
     </Select>
   );
 };

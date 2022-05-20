@@ -1,9 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { postService } from "../services/postService";
+import {
+  postService,
+  postDeleteService,
+  postEditService,
+} from "../services/postService";
 
 export const create = createAsyncThunk(
   "post/create",
   async (data, thunkAPI) => await postService(data, thunkAPI)
+);
+
+export const remove = createAsyncThunk(
+  "post/remove",
+  async (data, thunkAPI) => await postDeleteService(data, thunkAPI)
+);
+
+export const edit = createAsyncThunk(
+  "post/edit",
+  async (data, thunkAPI) => await postEditService(data, thunkAPI)
 );
 
 export const postSlice = createSlice({

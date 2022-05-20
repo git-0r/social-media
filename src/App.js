@@ -8,6 +8,7 @@ import { Home } from "./views/Home";
 import Navbar from "./views/Navbar";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
+import Explore from "./views/Explore";
 
 function App() {
   const { theme, themeToggler } = useDarkMode();
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />
