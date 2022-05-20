@@ -4,6 +4,7 @@ import feedReducer from "./feedSlice";
 import postReducer from "./postSlice";
 import bookmarksReducer from "./bookmarkSlice";
 import likesReducer from "./likeSlice";
+import exploreFeedReducer from "./exploreFeedSlice";
 
 const localState = JSON.parse(localStorage.getItem("state"));
 const preloadedState = {
@@ -12,6 +13,7 @@ const preloadedState = {
   bookmarks: { content: {}, status: "idle" },
   likes: { content: {}, status: "idle" },
   post: { status: "idle" },
+  exploreFeed: { content: [], status: "idle", skip: 0, hasMore: -1 },
 };
 
 const combinedReducer = combineReducers({
@@ -20,6 +22,7 @@ const combinedReducer = combineReducers({
   post: postReducer,
   bookmarks: bookmarksReducer,
   likes: likesReducer,
+  exploreFeed: exploreFeedReducer,
 });
 
 const rootReducer = (state, action) => {

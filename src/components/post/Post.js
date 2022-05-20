@@ -1,25 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useDaysCount } from "../../hooks/useDaysCount";
-import { fetchPostService } from "../../services/postService";
+import { remove } from "../../redux/postSlice";
+import EditPost from "../edit-post/EditPost";
 import Bookmark from "./components/Bookmark";
 import Like from "./components/Like";
 
-const Post = ({ data }) => {
-  const { username, postId } = data;
-  const [content, setContent] = useState();
-  const daysCount = useDaysCount(content?.createdAt);
+const Post = ({ post, menuState, setMenuState }) => {
+  const { firstname, lastname, username, _id, createdAt, content } = post;
+  const [editModal, setEditModal] = useState(false);
+  const user = useSelector((state) => state?.auth?.user);
+  const daysCount = useDaysCount(createdAt);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    async function fetchPost() {
-      const data = await fetchPostService(postId);
-      setContent(data);
-    }
-    fetchPost();
-  }, [postId]);
+  const handlePostMenu = () => {
+    setMenuState({ _id });
+  };
+
+  const deletePost = () => {
+    dispatch(remove({ postId: _id, userId: user?._id }));
+  };
+
+  const toggleModal = () => {
+    setEditModal((state) => !state);
+  };
 
   return (
     <PostWrapper>
+      {editModal && <EditPost post={post} toggleModal={toggleModal} />}
       <PostContainer>
         <PostHeader>
           <UserAvatarContainer>
@@ -31,28 +40,28 @@ const Post = ({ data }) => {
           </UserAvatarContainer>
           <Name>
             <FullName>
-              {content ? (
-                content?.firstname + " " + content?.lastname
-              ) : (
-                <PlaceholderText>loading...</PlaceholderText>
-              )}
+              {firstname} {lastname}
             </FullName>
             <Username>@{username}</Username>
           </Name>
-          <ion-icon
-            name="ellipsis-vertical-sharp"
-            style={{ marginLeft: "auto" }}
-            size="large"
-          ></ion-icon>
+          <PostMenuContainer>
+            {menuState?._id === _id && user?.username === username && (
+              <PostMenu>
+                <p onClick={toggleModal}>Edit</p>
+                <p onClick={deletePost}>Delete</p>
+              </PostMenu>
+            )}
+            <PostMenuIcon onClick={handlePostMenu}>
+              <ion-icon name="ellipsis-vertical-sharp" size="large"></ion-icon>
+            </PostMenuIcon>
+          </PostMenuContainer>
         </PostHeader>
-        <PostContent>
-          {content?.content ?? <PlaceholderText>"loading..."</PlaceholderText>}
-        </PostContent>
+        <PostContent>{content}</PostContent>
         <PostIcons>
-          <Like postId={postId} />
+          <Like postId={_id} />
           <ion-icon name="chatbubble-outline" size="large"></ion-icon>
           <ion-icon name="paper-plane-outline" size="large"></ion-icon>
-          <Bookmark postId={postId} />
+          <Bookmark postId={_id} />
         </PostIcons>
         <DayPosted>{daysCount}</DayPosted>
       </PostContainer>
@@ -119,11 +128,34 @@ const PostContent = styled.div`
   padding-bottom: 2rem;
 `;
 
-const PlaceholderText = styled.span`
-  font-family: var(--ff-placeholder);
-`;
-
 const DayPosted = styled.p`
   float: right;
   color: ${({ theme }) => theme.colorSecondary};
+`;
+
+const PostMenuContainer = styled.div`
+  margin-left: auto;
+  position: relative;
+`;
+
+const PostMenu = styled.div`
+  position: absolute;
+  right: 2rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  color: ${({ theme }) => theme.bgPrimary};
+  background-color: ${({ theme }) => theme.colorPrimary};
+
+  & > p {
+    margin: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const PostMenuIcon = styled.div`
+  cursor: pointer;
 `;

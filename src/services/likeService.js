@@ -1,11 +1,11 @@
-import { BASE_URL } from "./index";
+import { BASE_URL, token } from "./index";
 
 export const likeService = async ({ postId, userId }) => {
   const response = await fetch(`${BASE_URL}/like/${userId}`, {
     method: "Post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("token"),
+      Authorization: token(),
     },
     body: JSON.stringify({ postId }),
   });
@@ -17,7 +17,7 @@ export const fetchLikesService = async ({ userId }) => {
   const response = await fetch(`${BASE_URL}/like/${userId}`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("token"),
+      Authorization: token(),
     },
   });
   const data = await response.json();
