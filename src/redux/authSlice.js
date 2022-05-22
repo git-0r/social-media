@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginService, signupService } from "../services/authService";
+import {
+  editProfileService,
+  loginService,
+  signupService,
+} from "../services/authService";
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -11,12 +15,20 @@ export const signup = createAsyncThunk(
   async (credentials, thunkAPI) => await signupService(credentials, thunkAPI)
 );
 
+export const editProfile = createAsyncThunk(
+  "auth/editProfile",
+  async (data, thunkAPI) => await editProfileService(data, thunkAPI)
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: { user: null, status: "idle" },
   reducers: {
     logout: (state, action) => {
       return state;
+    },
+    updateFollowing: (state, action) => {
+      state.user.following = action.payload.following;
     },
   },
   extraReducers: (builder) => {
@@ -40,8 +52,12 @@ export const authSlice = createSlice({
     builder.addCase(signup.rejected, (state, action) => {
       state.auth = { user: null, status: "rejected" };
     });
+    builder.addCase(editProfile.fulfilled, (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+      state.status = "fulfilled";
+    });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, updateFollowing, updateProfile } = authSlice.actions;
 export default authSlice.reducer;

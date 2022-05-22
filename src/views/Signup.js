@@ -18,8 +18,8 @@ export const Wrapper = styled.main`
   display: flex;
   min-height: 100vh;
   font-family: var(--ff-text);
-  color: ${({ theme }) => theme.text};
-  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.colorPrimary};
+  background-color: ${({ theme }) => theme.bgSecondary};
   transition: all 0.5s linear;
 `;
 

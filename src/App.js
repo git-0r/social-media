@@ -9,6 +9,7 @@ import Navbar from "./views/Navbar";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Explore from "./views/Explore";
+import Profile from "./views/Profile";
 
 function App() {
   const { theme, themeToggler } = useDarkMode();
@@ -20,6 +21,7 @@ function App() {
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/profile/:username" element={<Profile />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />

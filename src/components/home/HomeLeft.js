@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { logout } from "../../redux/authSlice";
 
 const HomeLeft = () => {
-  const { firstname, username } = useSelector((state) => state?.auth?.user);
+  const { firstname, username, avatar } = useSelector(
+    (state) => state?.auth?.user
+  );
   const dispatch = useDispatch();
   const out = () => {
     localStorage.clear();
@@ -25,7 +27,7 @@ const HomeLeft = () => {
     {
       icon: "person",
       content: "Profile",
-      url: `/${username}`,
+      url: `/profile/${username}`,
     },
     {
       icon: "ellipsis-horizontal",
@@ -43,7 +45,11 @@ const HomeLeft = () => {
         </MenuOption>
       ))}
       <Logout>
-        <Avatar loading="lazy" src="https://picsum.photos/50" alt="avatar" />
+        <Avatar
+          loading="lazy"
+          src={avatar ?? "https://picsum.photos/50"}
+          alt="avatar"
+        />
         <UsernameWrapper>
           <Name>{firstname}</Name>
           <Username>@{username}</Username>
@@ -80,6 +86,8 @@ const Logout = styled.div`
 
 const Avatar = styled.img`
   border-radius: 50%;
+  width: 50px;
+  height: 50px;
 `;
 
 const UsernameWrapper = styled.div`

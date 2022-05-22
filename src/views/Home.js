@@ -13,7 +13,6 @@ export const Home = () => {
         <Feed />
       </HomeCenter>
       <HomeRight />
-      {/* <EditPost /> */}
     </Wrapper>
   );
 };

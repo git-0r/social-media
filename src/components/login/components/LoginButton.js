@@ -22,9 +22,10 @@ export const Button = styled.button`
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.borderColor};
   background: ${({ theme }) => theme.colorSecondary};
-  color: #fff;
+  color: ${({ theme }) => theme.bgSecondary};
   transition: all 0.3s;
   &:hover {
+    color: ${({ theme }) => theme.bgPrimary};
     background: ${({ theme }) => theme.colorPrimary};
   }
 `;
