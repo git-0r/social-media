@@ -1,25 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import HomeLeft from "../components/home/HomeLeft";
 import { HomeRight } from "../components/home/HomeRight";
 import EditProfileForm from "../components/profile/EditProfileForm";
 
 const Profile = () => {
-  const {
-    firstname,
-    lastname,
-    username,
-    createdAt,
-    bio,
-    avatar,
-    portfoliourl,
-  } = useSelector((state) => state?.auth?.user);
-
+  const currentUser = useSelector((state) => state?.auth?.user);
+  const { pathname } = useLocation();
   const [editForm, setEditForm] = useState(false);
+  const [user, setUser] = useState({});
 
-  const date = new Date(createdAt);
+  useEffect(() => {
+    async function fetchUserProfile() {
+      const res = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/user/${pathname.split("/")[2]}`
+      );
+      const data = await res.json();
+      setUser(data);
+    }
+    fetchUserProfile();
+  }, []);
+  const date = new Date(user?.createdAt);
   const joinedOn = `${date.getDate()}-${
     date.getMonth() + 1
   }-${date.getFullYear()}`;
@@ -35,23 +38,25 @@ const Profile = () => {
             alt="background"
           />
           <ProfilePicture
-            src={avatar ?? "https://picsum.photos/100"}
+            src={user?.avatar ?? "https://picsum.photos/100"}
             loading="lazy"
             alt="profile picture"
           />
           <Fullname>
-            {firstname} {lastname}
+            {user?.firstname} {user?.lastname}
           </Fullname>
-          <Username>@{username}</Username>
+          <Username>@{user?.username}</Username>
         </Header>
-        <Bio>{bio}</Bio>
-        <EditProfileIcon onClick={() => setEditForm((state) => !state)}>
-          <ion-icon name="settings-outline" size="large"></ion-icon>
-        </EditProfileIcon>
+        <Bio>{user?.bio}</Bio>
+        {currentUser?._id === user?._id && (
+          <EditProfileIcon onClick={() => setEditForm((state) => !state)}>
+            <ion-icon name="settings-outline" size="large"></ion-icon>
+          </EditProfileIcon>
+        )}
         <UserInfo>
           <PortfolioUrl>
             <ion-icon name="link" size="large"></ion-icon>
-            <Link to="#">{portfoliourl ?? "update your profile"}</Link>
+            <Link to="#">{user?.portfoliourl ?? "update your profile"}</Link>
           </PortfolioUrl>
           <JoinDate>
             <ion-icon name="calendar" size="large"></ion-icon> Joined on:{" "}

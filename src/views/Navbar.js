@@ -30,8 +30,9 @@ const Logo = styled.div`
 
 const Nav = styled.nav`
   display: flex;
+  box-sizing: border-box;
   padding: 1rem;
-  height: 2rem;
+  height: 4rem;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   font-family: var(--ff-text);
   color: ${({ theme }) => theme.colorPrimary};

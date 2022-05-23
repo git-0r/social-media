@@ -5,10 +5,12 @@ import { updateFollowing } from "../../redux/authSlice";
 import { followService } from "../../services/FollowService";
 
 export const HomeRight = () => {
-  const { _id, following } = useSelector((state) => state?.auth?.user);
-  const { userData } = useUserProfiles({ _id });
+  const currentUser = useSelector((state) => state?.auth?.user);
+  const { userData } = useUserProfiles({ _id: currentUser?._id });
   const dispatch = useDispatch();
-
+  if (!currentUser) {
+    return <ContainerRight />;
+  }
   const handleFollowers = async (data) => {
     const res = await followService(data);
     dispatch(updateFollowing(res));
@@ -22,10 +24,14 @@ export const HomeRight = () => {
           <UserAvatar src={user?.avatar} />
           <Fullname>
             {user?.firstname} {user?.lastname}
-            {following?.includes(user?._id) ? (
+            {currentUser?.following?.includes(user?._id) ? (
               <FollowingButton
                 onClick={() =>
-                  handleFollowers({ userId: user?._id, _id, type: "unfollow" })
+                  handleFollowers({
+                    userId: user?._id,
+                    _id: currentUser?._id,
+                    type: "unfollow",
+                  })
                 }
               >
                 Following
@@ -33,7 +39,11 @@ export const HomeRight = () => {
             ) : (
               <FollowButton
                 onClick={() =>
-                  handleFollowers({ userId: user?._id, _id, type: "follow" })
+                  handleFollowers({
+                    userId: user?._id,
+                    _id: currentUser?._id,
+                    type: "follow",
+                  })
                 }
               >
                 Follow
@@ -53,7 +63,8 @@ const ContainerRight = styled.section`
   overflow-wrap: break-word;
   position: sticky;
   top: 4rem;
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 8rem);
+  border-left: 1px solid ${({ theme }) => theme.borderColor};
 `;
 
 const Card = styled.div`
