@@ -18,7 +18,7 @@ const useUserProfiles = ({ _id }) => {
       const data = await res.json();
       setUserData(data);
     }
-    fetchUserProfiles();
+    _id && fetchUserProfiles();
   }, [_id]);
   return { userData };
 };

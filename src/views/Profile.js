@@ -21,7 +21,7 @@ const Profile = () => {
       setUser(data);
     }
     fetchUserProfile();
-  }, []);
+  }, [pathname]);
   const date = new Date(user?.createdAt);
   const joinedOn = `${date.getDate()}-${
     date.getMonth() + 1
