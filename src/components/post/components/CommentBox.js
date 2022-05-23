@@ -25,7 +25,7 @@ const CommentBox = ({ user, postId, setPostData }) => {
     <CommentWrapper>
       {user ? (
         <CommentForm onSubmit={postComment} ref={commentFormRef}>
-          <CommentInput name="content" />
+          <CommentInput name="content" required />
           <SubmitButton>send</SubmitButton>
         </CommentForm>
       ) : (
