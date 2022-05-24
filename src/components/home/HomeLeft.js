@@ -4,10 +4,13 @@ import styled from "styled-components";
 import { logout } from "../../redux/authSlice";
 
 const HomeLeft = () => {
-  const { firstname, username, avatar } = useSelector(
-    (state) => state?.auth?.user
-  );
+  const user = useSelector((state) => state?.auth?.user);
   const dispatch = useDispatch();
+
+  if (!user) {
+    return <ContainerLeft />;
+  }
+
   const out = () => {
     localStorage.clear();
     dispatch(logout());
@@ -27,7 +30,7 @@ const HomeLeft = () => {
     {
       icon: "person",
       content: "Profile",
-      url: `/profile/${username}`,
+      url: `/profile/${user?.username}`,
     },
     {
       icon: "ellipsis-horizontal",
@@ -47,12 +50,12 @@ const HomeLeft = () => {
       <Logout>
         <Avatar
           loading="lazy"
-          src={avatar ?? "https://picsum.photos/50"}
+          src={user?.avatar ?? "https://picsum.photos/50"}
           alt="avatar"
         />
         <UsernameWrapper>
-          <Name>{firstname}</Name>
-          <Username>@{username}</Username>
+          <Name>{user?.firstname}</Name>
+          <Username>@{user?.username}</Username>
         </UsernameWrapper>
         <LogoutButton onClick={out}>
           <ion-icon name="log-out-outline" size="large"></ion-icon>
@@ -71,7 +74,8 @@ const ContainerLeft = styled.section`
   overflow-wrap: break-word;
   position: sticky;
   top: 4rem;
-  height: calc(100vh - 10rem);
+  height: calc(100vh - 8rem);
+  border-right: 1px solid ${({ theme }) => theme.borderColor};
 `;
 
 const Logout = styled.div`

@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 
-export const usePostMenu = () => {
+export const useReplyForm = () => {
   const reducer = (state, action) => {
     if (state?._id !== action?._id) {
       return { ...action };
@@ -8,7 +8,7 @@ export const usePostMenu = () => {
       return {};
     }
   };
-  const [menuState, setMenuState] = useReducer(reducer, {});
+  const [formState, setFormState] = useReducer(reducer, {});
 
-  return { menuState, setMenuState };
+  return { formState, setFormState };
 };

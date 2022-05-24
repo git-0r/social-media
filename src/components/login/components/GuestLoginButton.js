@@ -1,9 +1,15 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 export const GuestLoginButton = ({ login }) => {
+  const status = useSelector((state) => state?.auth?.status);
   return (
-    <LoginButton onClick={login} value="guestLogin">
-      Guest Login
+    <LoginButton
+      onClick={login}
+      value="guestLogin"
+      disabled={status === "pending" ? true : false}
+    >
+      {status === "pending" ? "Please wait" : "Guest Login"}
     </LoginButton>
   );
 };
