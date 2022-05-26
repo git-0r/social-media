@@ -34,62 +34,43 @@ const Post = () => {
   }, [postId]);
 
   return (
-    <Wrapper>
-      <HomeLeft />
-      <HomeCenter>
-        <PostWrapper>
-          <PostHeader>
-            <Avatar />
-            <Name
-              firstname={postData?.firstname}
-              lastname={postData?.lastname}
-              username={postData?.username}
-            />
-          </PostHeader>
-          <PostContent>{postData?.content}</PostContent>
-          {postData?.id && (
-            <PostIcons>
-              <Like postId={postData?._id} />
-              <Bookmark postId={postData?._id} />
-            </PostIcons>
-          )}
-          <DayPosted>{daysCount}</DayPosted>
-        </PostWrapper>
-        <CommentsHeading>COMMENTS</CommentsHeading>
-        <CommentBox user={user} postId={postId} setPostData={setPostData} />
-        {postData?.comments?.length > 0 &&
-          postData?.comments?.map((comment) => (
-            <Comment
-              key={comment?._id}
-              comment={comment}
-              user={user}
-              formState={formState}
-              setFormState={setFormState}
-              setPostData={setPostData}
-            />
-          ))}
-      </HomeCenter>
-      <HomeRight />
-    </Wrapper>
+    <>
+      <PostWrapper>
+        <PostHeader>
+          <Avatar />
+          <Name
+            firstname={postData?.firstname}
+            lastname={postData?.lastname}
+            username={postData?.username}
+          />
+        </PostHeader>
+        <PostContent>{postData?.content}</PostContent>
+        {postData?.id && (
+          <PostIcons>
+            <Like postId={postData?._id} />
+            <Bookmark postId={postData?._id} />
+          </PostIcons>
+        )}
+        <DayPosted>{daysCount}</DayPosted>
+      </PostWrapper>
+      <CommentsHeading>COMMENTS</CommentsHeading>
+      <CommentBox user={user} postId={postId} setPostData={setPostData} />
+      {postData?.comments?.length > 0 &&
+        postData?.comments?.map((comment) => (
+          <Comment
+            key={comment?._id}
+            comment={comment}
+            user={user}
+            formState={formState}
+            setFormState={setFormState}
+            setPostData={setPostData}
+          />
+        ))}
+    </>
   );
 };
 
 export default Post;
-
-const Wrapper = styled.main`
-  display: grid;
-  grid-template-columns: 25% 50% 25%;
-  font-family: var(--ff-text);
-  color: ${({ theme }) => theme.colorPrimary};
-  background-color: ${({ theme }) => theme.bgSecondary};
-  transition: all 0.5s linear;
-  position: relative;
-`;
-
-const HomeCenter = styled.section`
-  overflow-wrap: break-word;
-  padding: 1rem 4rem;
-`;
 
 const PostWrapper = styled.div`
   margin: 1rem 0;

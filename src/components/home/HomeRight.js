@@ -8,9 +8,9 @@ export const HomeRight = () => {
   const currentUser = useSelector((state) => state?.auth?.user);
   const { userData } = useUserProfiles({ _id: currentUser?._id });
   const dispatch = useDispatch();
-  if (!currentUser) {
-    return <ContainerRight />;
-  }
+  // if (!currentUser) {
+  //   return <ContainerRight />;
+  // }
   const handleFollowers = async (data) => {
     const res = await followService(data);
     dispatch(updateFollowing(res));

@@ -17,17 +17,19 @@ const Menu = ({
   const deletePost = () => dispatch(remove({ postId: _id, userId: user?._id }));
 
   return (
-    <PostMenuContainer>
-      {menuState?._id === _id && user?.username === username && (
-        <PostMenu>
-          <p onClick={toggleModal}>Edit</p>
-          <p onClick={deletePost}>Delete</p>
-        </PostMenu>
-      )}
-      <PostMenuIcon onClick={handlePostMenu}>
-        <ion-icon name="ellipsis-vertical-sharp" size="large"></ion-icon>
-      </PostMenuIcon>
-    </PostMenuContainer>
+    user?.username === username && (
+      <PostMenuContainer>
+        {menuState?._id === _id && (
+          <PostMenu>
+            <p onClick={toggleModal}>Edit</p>
+            <p onClick={deletePost}>Delete</p>
+          </PostMenu>
+        )}
+        <PostMenuIcon onClick={handlePostMenu}>
+          <ion-icon name="ellipsis-vertical-sharp" size="large"></ion-icon>
+        </PostMenuIcon>
+      </PostMenuContainer>
+    )
   );
 };
 

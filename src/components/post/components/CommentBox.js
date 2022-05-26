@@ -55,8 +55,9 @@ const CommentInput = styled.textarea`
   width: 100%;
   height: 2rem;
   resize: none;
-  font-size: 1.2rem;
+  font-size: 1rem;
   border: transparent;
+  color: ${({ theme }) => theme.colorPrimary};
   background-color: ${({ theme }) => theme.bgPrimary};
   border-bottom: 2px solid ${({ theme }) => theme.colorSecondary};
 

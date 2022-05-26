@@ -7,9 +7,9 @@ const HomeLeft = () => {
   const user = useSelector((state) => state?.auth?.user);
   const dispatch = useDispatch();
 
-  if (!user) {
-    return <ContainerLeft />;
-  }
+  // if (!user) {
+  //   return <ContainerLeft />;
+  // }
 
   const out = () => {
     localStorage.clear();
@@ -33,9 +33,9 @@ const HomeLeft = () => {
       url: `/profile/${user?.username}`,
     },
     {
-      icon: "ellipsis-horizontal",
-      content: "More",
-      url: "#",
+      icon: "bookmark",
+      content: "Bookmarks",
+      url: `/bookmarks/${user?._id}`,
     },
   ];
 

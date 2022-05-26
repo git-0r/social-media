@@ -11,6 +11,8 @@ import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Explore from "./views/Explore";
 import Profile from "./views/Profile";
 import Post from "./views/Post";
+import Bookmarks from "./views/Bookmarks";
+import AuthRoutes from "./routes/AuthRoutes";
 
 function App() {
   const { theme, themeToggler } = useDarkMode();
@@ -22,13 +24,16 @@ function App() {
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/bookmarks/:id" element={<Bookmarks />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/post/:id" element={<Post />} />
+        </Route>
+        <Route element={<AuthRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
-        <Route path="/profile/:username" element={<Profile />} />
-        <Route path="/post/:id" element={<Post />} />
         <Route path="*" element={<p>There's nothing here: 404!</p>} />
       </Routes>
     </ThemeProvider>

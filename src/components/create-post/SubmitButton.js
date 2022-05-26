@@ -1,10 +1,16 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const SubmitButton = () => {
+const SubmitButton = ({ inputValue }) => {
   const { status } = useSelector((state) => state?.post);
 
-  return <Button disabled={status === "pending" ? true : false}>Post</Button>;
+  return (
+    <Button
+      disabled={status === "pending" || inputValue.length < 1 ? true : false}
+    >
+      Post
+    </Button>
+  );
 };
 
 export default SubmitButton;
