@@ -1,30 +1,22 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Post from "../components/post/Post";
 import { usePostMenu } from "../hooks/usePostMenu";
-import { token } from "../services";
+import { fetchBookmarkedPosts, fetchBookmarks } from "../redux/bookmarkSlice";
+import { fetchLikes } from "../redux/likeSlice";
 
 const Bookmarks = () => {
   const { _id } = useSelector((state) => state?.auth?.user);
-  const [posts, setPosts] = useState([]);
+  const { posts } = useSelector((state) => state?.bookmarks);
   const { menuState, setMenuState } = usePostMenu();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getBookmarkedPosts() {
-      const res = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/bookmark/posts/${_id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token(),
-          },
-        }
-      );
-      const data = await res.json();
-      setPosts(data);
-    }
-    getBookmarkedPosts();
-  }, [_id]);
+    dispatch(fetchBookmarkedPosts({ userId: _id }));
+    dispatch(fetchLikes({ userId: _id }));
+    dispatch(fetchBookmarks({ userId: _id }));
+  }, [_id, dispatch]);
+
   return (
     posts?.length > 0 &&
     posts?.map((post) => (

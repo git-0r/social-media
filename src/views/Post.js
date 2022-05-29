@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import HomeLeft from "../components/home/HomeLeft";
-import { HomeRight } from "../components/home/HomeRight";
 import Avatar from "../components/post/components/Avatar";
 import Bookmark from "../components/post/components/Bookmark";
 import Comment from "../components/post/components/Comment";

@@ -75,6 +75,7 @@ const PostIcons = styled.div`
   margin-left: 60px;
   display: flex;
   gap: 1rem;
+  cursor: pointer;
 `;
 
 const PostHeader = styled.header`

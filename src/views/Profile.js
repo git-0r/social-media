@@ -69,6 +69,7 @@ export default Profile;
 const Header = styled.header``;
 const BackgroundImage = styled.img`
   width: 100%;
+  height: 200px;
   margin-top: 1rem;
   border-radius: 1rem;
 `;
@@ -97,6 +98,7 @@ const Username = styled.p`
 
 const UserInfo = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-top: 2rem;
   justify-content: space-between;
 `;
@@ -108,6 +110,12 @@ const PortfolioUrl = styled.div`
 
   & > a {
     width: 20ch;
+    color: inherit;
+    display: block;
+    white-space: nowrap;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 

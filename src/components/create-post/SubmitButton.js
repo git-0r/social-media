@@ -6,7 +6,9 @@ const SubmitButton = ({ inputValue }) => {
 
   return (
     <Button
-      disabled={status === "pending" || inputValue.length < 1 ? true : false}
+      disabled={
+        status === "pending" || inputValue.trim().length < 1 ? true : false
+      }
     >
       Post
     </Button>

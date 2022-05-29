@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import useUserProfiles from "../../hooks/useUserProfiles";
 import { updateFollowing } from "../../redux/authSlice";
 import { followService } from "../../services/FollowService";
+import { medium } from "../../styles/responsive";
 
 export const HomeRight = () => {
   const currentUser = useSelector((state) => state?.auth?.user);
   const { userData } = useUserProfiles({ _id: currentUser?._id });
   const dispatch = useDispatch();
-  // if (!currentUser) {
-  //   return <ContainerRight />;
-  // }
+
   const handleFollowers = async (data) => {
     const res = await followService(data);
     dispatch(updateFollowing(res));
@@ -21,7 +21,9 @@ export const HomeRight = () => {
       <Title>People you may know</Title>
       {userData?.map?.((user) => (
         <Card key={user?._id}>
-          <UserAvatar src={user?.avatar} />
+          <Link to={`/profile/${user?.username}`}>
+            <UserAvatar src={user?.avatar} />
+          </Link>
           <Fullname>
             {user?.firstname} {user?.lastname}
             {currentUser?.following?.includes(user?._id) ? (
@@ -65,6 +67,8 @@ const ContainerRight = styled.section`
   top: 4rem;
   height: calc(100vh - 8rem);
   border-left: 1px solid ${({ theme }) => theme.borderColor};
+  display: none;
+  ${medium({ display: "block" })}
 `;
 
 const Card = styled.div`
@@ -76,7 +80,6 @@ const Card = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
   border-radius: 1rem;
-  cursor: pointer;
   color: inherit;
   text-decoration: none;
   background-color: ${({ theme }) => theme.bgThird};
@@ -86,9 +89,10 @@ const UserAvatar = styled.img`
   border-radius: 50%;
 `;
 
-const Fullname = styled.div`
+const Fullname = styled.p`
   font-size: 1rem;
   width: 100%;
+  margin: 0;
 `;
 
 const Title = styled.p`

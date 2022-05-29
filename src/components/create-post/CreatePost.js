@@ -14,15 +14,10 @@ const CreatePost = () => {
 
   const submitPost = async (e) => {
     e.preventDefault();
-    // const formData = Object.fromEntries(new FormData(e.target));
-    // console.log(formData, inputValue);
-    // formData.username = username;
-    // formData.firstname = firstname;
-    // lastname && (formData.lastname = lastname);
     dispatch(
       create({
         userId: _id,
-        formData: { content: inputValue, firstname, lastname, username },
+        formData: { content: inputValue.trim(), firstname, lastname, username },
       })
     );
     setInputValue("");

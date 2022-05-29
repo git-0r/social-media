@@ -24,8 +24,6 @@ const Like = ({ postId }) => {
 export default Like;
 
 const LikeIcon = styled.div`
-  cursor: pointer;
-
   & [name="heart"] {
     color: ${({ theme }) => theme.redColor};
   }

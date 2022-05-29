@@ -23,7 +23,7 @@ const Comment = ({ comment, user, formState, setFormState, setPostData }) => {
               Reply
             </ReplyText>
           )}
-          {formState?._id === comment?._id && (
+          {user && formState?._id === comment?._id && (
             <ReplyForm
               commentId={comment?._id}
               user={user}

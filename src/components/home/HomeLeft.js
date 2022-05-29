@@ -2,14 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { logout } from "../../redux/authSlice";
+import { medium } from "../../styles/responsive";
 
 const HomeLeft = () => {
   const user = useSelector((state) => state?.auth?.user);
   const dispatch = useDispatch();
-
-  // if (!user) {
-  //   return <ContainerLeft />;
-  // }
 
   const out = () => {
     localStorage.clear();
@@ -44,7 +41,7 @@ const HomeLeft = () => {
       {menuOptions.map(({ icon, content, url }) => (
         <MenuOption to={url} key={icon}>
           <ion-icon name={icon} size="large"></ion-icon>
-          {content}
+          <MenuText>{content}</MenuText>
         </MenuOption>
       ))}
       <Logout>
@@ -61,6 +58,9 @@ const HomeLeft = () => {
           <ion-icon name="log-out-outline" size="large"></ion-icon>
         </LogoutButton>
       </Logout>
+      <LogoutBtnSmall onClick={out}>
+        <ion-icon name="log-out" size="large"></ion-icon>
+      </LogoutBtnSmall>
     </ContainerLeft>
   );
 };
@@ -69,23 +69,35 @@ export default HomeLeft;
 
 const ContainerLeft = styled.section`
   display: flex;
-  flex-direction: column;
-  padding: 2rem;
+  justify-content: space-evenly;
   overflow-wrap: break-word;
   position: sticky;
-  top: 4rem;
-  height: calc(100vh - 8rem);
+  top: calc(100vh - 5rem);
+  z-index: 10;
+  height: fit-content;
   border-right: 1px solid ${({ theme }) => theme.borderColor};
+  ${medium({
+    top: "4rem",
+    "flex-direction": "column",
+    height: "calc(100vh - 8rem)",
+    padding: "2rem",
+  })};
+  @media only screen and (max-width: 64em) {
+    background-color: ${({ theme }) => theme.bgPrimary};
+  }
 `;
 
 const Logout = styled.div`
-  display: flex;
+  display: none;
   margin-top: auto;
   padding: 0.5rem 1rem;
   align-items: center;
   border-radius: 1rem;
   justify-content: space-around;
   background-color: ${({ theme }) => theme.bgThird};
+  ${medium({
+    display: "flex",
+  })};
 `;
 
 const Avatar = styled.img`
@@ -127,4 +139,23 @@ const MenuOption = styled(Link)`
   color: inherit;
   text-decoration: none;
   background-color: ${({ theme }) => theme.bgThird};
+  @media only screen and (max-width: 64em) {
+    background-color: ${({ theme }) => theme.bgPrimary};
+  }
+`;
+
+const MenuText = styled.p`
+  margin: 0;
+  display: none;
+  ${medium({ display: "block" })};
+`;
+
+const LogoutBtnSmall = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  color: inherit;
+  ${medium({ display: "none" })};
 `;
