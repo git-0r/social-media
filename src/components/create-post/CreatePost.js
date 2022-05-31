@@ -14,11 +14,12 @@ const CreatePost = () => {
 
   const submitPost = async (e) => {
     e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.target));
-    formData.username = username;
-    formData.firstname = firstname;
-    lastname && (formData.lastname = lastname);
-    dispatch(create({ userId: _id, formData }));
+    dispatch(
+      create({
+        userId: _id,
+        formData: { content: inputValue.trim(), firstname, lastname, username },
+      })
+    );
     setInputValue("");
   };
   const updateInputValue = (e) => setInputValue(e.target.value);
@@ -30,7 +31,7 @@ const CreatePost = () => {
         <ion-icon name="happy-outline" size="large"></ion-icon>
         <ion-icon name="image-outline" size="large"></ion-icon>
         <ion-icon name="location-outline" size="large"></ion-icon>
-        <SubmitButton />
+        <SubmitButton inputValue={inputValue} />
       </FlexContainer>
     </Form>
   );

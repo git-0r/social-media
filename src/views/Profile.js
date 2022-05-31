@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import HomeLeft from "../components/home/HomeLeft";
-import { HomeRight } from "../components/home/HomeRight";
 import EditProfileForm from "../components/profile/EditProfileForm";
 
 const Profile = () => {
@@ -28,68 +26,50 @@ const Profile = () => {
   }-${date.getFullYear()}`;
 
   return (
-    <Wrapper>
-      <HomeLeft />
-      <HomeCenter>
-        <Header>
-          <BackgroundImage
-            src="https://picsum.photos/500/200"
-            loading="lazy"
-            alt="background"
-          />
-          <ProfilePicture
-            src={user?.avatar ?? "https://picsum.photos/100"}
-            loading="lazy"
-            alt="profile picture"
-          />
-          <Fullname>
-            {user?.firstname} {user?.lastname}
-          </Fullname>
-          <Username>@{user?.username}</Username>
-        </Header>
-        <Bio>{user?.bio}</Bio>
-        {currentUser?._id === user?._id && (
-          <EditProfileIcon onClick={() => setEditForm((state) => !state)}>
-            <ion-icon name="settings-outline" size="large"></ion-icon>
-          </EditProfileIcon>
-        )}
-        <UserInfo>
-          <PortfolioUrl>
-            <ion-icon name="link" size="large"></ion-icon>
-            <Link to="#">{user?.portfoliourl ?? "update your profile"}</Link>
-          </PortfolioUrl>
-          <JoinDate>
-            <ion-icon name="calendar" size="large"></ion-icon> Joined on:{" "}
-            {joinedOn}
-          </JoinDate>
-        </UserInfo>
-        {editForm && <EditProfileForm setEditForm={setEditForm} />}
-      </HomeCenter>
-      <HomeRight />
-    </Wrapper>
+    <>
+      <Header>
+        <BackgroundImage
+          src="https://picsum.photos/500/200"
+          loading="lazy"
+          alt="background"
+        />
+        <ProfilePicture
+          src={user?.avatar ?? "https://picsum.photos/100"}
+          loading="lazy"
+          alt="profile picture"
+        />
+        <Fullname>
+          {user?.firstname} {user?.lastname}
+        </Fullname>
+        <Username>@{user?.username}</Username>
+      </Header>
+      <Bio>{user?.bio}</Bio>
+      {currentUser?._id === user?._id && (
+        <EditProfileIcon onClick={() => setEditForm((state) => !state)}>
+          <ion-icon name="settings-outline" size="large"></ion-icon>
+        </EditProfileIcon>
+      )}
+      <UserInfo>
+        <PortfolioUrl>
+          <ion-icon name="link" size="large"></ion-icon>
+          <Link to="#">{user?.portfoliourl ?? "update your profile"}</Link>
+        </PortfolioUrl>
+        <JoinDate>
+          <ion-icon name="calendar" size="large"></ion-icon> Joined on:{" "}
+          {joinedOn}
+        </JoinDate>
+      </UserInfo>
+      {editForm && <EditProfileForm setEditForm={setEditForm} />}
+    </>
   );
 };
 
 export default Profile;
 
-const Wrapper = styled.main`
-  display: grid;
-  grid-template-columns: 25% 50% 25%;
-  font-family: var(--ff-text);
-  color: ${({ theme }) => theme.colorPrimary};
-  background-color: ${({ theme }) => theme.bgSecondary};
-  transition: all 0.5s linear;
-  position: relative;
-`;
-
-const HomeCenter = styled.section`
-  overflow-wrap: break-word;
-  padding: 1rem 4rem;
-`;
-
 const Header = styled.header``;
 const BackgroundImage = styled.img`
   width: 100%;
+  height: 200px;
   margin-top: 1rem;
   border-radius: 1rem;
 `;
@@ -118,6 +98,7 @@ const Username = styled.p`
 
 const UserInfo = styled.div`
   display: flex;
+  flex-wrap: wrap;
   margin-top: 2rem;
   justify-content: space-between;
 `;
@@ -129,6 +110,12 @@ const PortfolioUrl = styled.div`
 
   & > a {
     width: 20ch;
+    color: inherit;
+    display: block;
+    white-space: nowrap;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 

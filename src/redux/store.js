@@ -10,7 +10,7 @@ const localState = JSON.parse(localStorage.getItem("state"));
 const preloadedState = {
   ...localState,
   feed: { content: [], status: "idle", skip: 0, hasMore: -1 },
-  bookmarks: { content: {}, status: "idle" },
+  bookmarks: { content: {}, posts: [], status: "idle" },
   likes: { content: {}, status: "idle" },
   post: { status: "idle" },
   exploreFeed: { content: [], status: "idle", skip: 0, hasMore: -1 },

@@ -5,7 +5,7 @@ import { useDaysCount } from "../../hooks/useDaysCount";
 import EditPost from "../edit-post/EditPost";
 import Bookmark from "./components/Bookmark";
 import Like from "./components/Like";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Avatar from "./components/Avatar";
 import Name from "./components/Name";
 import Menu from "./components/Menu";
@@ -28,7 +28,9 @@ const Post = ({ post, menuState, setMenuState }) => {
       {editModal && <EditPost post={post} toggleModal={toggleModal} />}
       <PostContainer>
         <PostHeader>
-          <Avatar />
+          <Link to={`/profile/${username}`}>
+            <Avatar />
+          </Link>
           <Name firstname={firstname} lastname={lastname} username={username} />
           <Menu
             username={username}
@@ -73,6 +75,7 @@ const PostIcons = styled.div`
   margin-left: 60px;
   display: flex;
   gap: 1rem;
+  cursor: pointer;
 `;
 
 const PostHeader = styled.header`
