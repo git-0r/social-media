@@ -4,6 +4,7 @@ import PostInput from "./PostInput";
 import { useState } from "react";
 import SubmitButton from "./SubmitButton";
 import { create } from "../../redux/postSlice";
+import EmojiPicker from "./EmojiPicker";
 
 const CreatePost = () => {
   const { username, firstname, lastname, _id } = useSelector(
@@ -28,7 +29,7 @@ const CreatePost = () => {
     <Form onSubmit={submitPost}>
       <PostInput inputValue={inputValue} updateInputValue={updateInputValue} />
       <FlexContainer>
-        <ion-icon name="happy-outline" size="large"></ion-icon>
+        <EmojiPicker inputValue={inputValue} setInputValue={setInputValue} />
         <ion-icon name="image-outline" size="large"></ion-icon>
         <ion-icon name="location-outline" size="large"></ion-icon>
         <SubmitButton inputValue={inputValue} />
