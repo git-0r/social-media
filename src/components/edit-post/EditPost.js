@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { edit } from "../../redux/postSlice";
+import { medium } from "../../styles/responsive";
 
 const EditPost = ({ post, toggleModal }) => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const EditPost = ({ post, toggleModal }) => {
     <MondalWrapper>
       <Heading>Edit post</Heading>
       <EditForm onSubmit={submitEditForm}>
+        {post?.imageUrl && <PostImage src={post?.imageUrl} alt="post" />}
         <ModalInput defaultValue={post?.content} name="content" />
         <Buttons>
           <SubmitButton>Save</SubmitButton>
@@ -41,13 +43,14 @@ const MondalWrapper = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 20;
+  z-index: 10;
   background-color: ${({ theme }) => theme.bgThird};
 `;
 
 const EditForm = styled.form`
   margin: 2rem auto;
-  width: 60%;
+  width: 90%;
+  ${medium({ width: "60%" })}
 `;
 
 const ModalInput = styled.textarea`
@@ -91,8 +94,12 @@ const CancelButton = styled.button`
   cursor: pointer;
   font-family: inherit;
   border-radius: 0.5rem;
-  color: inherit;
   padding: 0.5rem;
   display: block;
-  background-color: ${({ theme }) => theme.lightBlueColor};
+`;
+
+const PostImage = styled.img`
+  width: 30%;
+  display: block;
+  margin: 0 auto;
 `;

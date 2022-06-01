@@ -17,7 +17,18 @@ const Post = () => {
   const { pathname } = useLocation();
   const postId = pathname.split("/")[2];
   const [postData, setPostData] = useState({});
-  const daysCount = useDaysCount(postData?.createdAt);
+  const {
+    firstname,
+    lastname,
+    username,
+    _id,
+    createdAt,
+    content,
+    imageUrl,
+    location,
+    comments,
+  } = postData;
+  const daysCount = useDaysCount(createdAt);
 
   useEffect(() => {
     async function fetchPostData() {
@@ -36,25 +47,30 @@ const Post = () => {
       <PostWrapper>
         <PostHeader>
           <Avatar />
-          <Name
-            firstname={postData?.firstname}
-            lastname={postData?.lastname}
-            username={postData?.username}
-          />
+          <Name firstname={firstname} lastname={lastname} username={username} />
         </PostHeader>
-        <PostContent>{postData?.content}</PostContent>
-        {postData?.id && (
+        <PostContent>
+          {imageUrl && <PostImage src={imageUrl} alt="post" loading="lazy" />}
+          {content}
+        </PostContent>
+        {user && (
           <PostIcons>
-            <Like postId={postData?._id} />
-            <Bookmark postId={postData?._id} />
+            <Like postId={_id} />
+            <Bookmark postId={_id} />
           </PostIcons>
+        )}
+        {location && (
+          <Location>
+            <ion-icon name="location"></ion-icon>
+            {location}
+          </Location>
         )}
         <DayPosted>{daysCount}</DayPosted>
       </PostWrapper>
       <CommentsHeading>COMMENTS</CommentsHeading>
       <CommentBox user={user} postId={postId} setPostData={setPostData} />
-      {postData?.comments?.length > 0 &&
-        postData?.comments?.map((comment) => (
+      {comments?.length > 0 &&
+        comments?.map((comment) => (
           <Comment
             key={comment?._id}
             comment={comment}
@@ -72,7 +88,7 @@ export default Post;
 
 const PostWrapper = styled.div`
   margin: 1rem 0;
-  padding: 2rem 1rem;
+  padding: 1rem;
   border-radius: 1rem;
   overflow: hidden;
   background-color: ${({ theme }) => theme.bgPrimary};
@@ -88,7 +104,6 @@ const PostHeader = styled.header`
 
 const PostContent = styled.div`
   margin-left: 60px;
-  padding-bottom: 2rem;
   cursor: pointer;
 `;
 
@@ -105,6 +120,20 @@ const PostIcons = styled.div`
 
 const DayPosted = styled.p`
   float: right;
+  margin-bottom: 0;
+  color: ${({ theme }) => theme.colorSecondary};
+`;
+
+const PostImage = styled.img`
+  width: 30%;
+  object-fit: contain;
+  display: block;
+  margin: 0.5rem auto;
+`;
+
+const Location = styled.p`
+  float: left;
+  margin-left: 60px;
   margin-bottom: 0;
   color: ${({ theme }) => theme.colorSecondary};
 `;

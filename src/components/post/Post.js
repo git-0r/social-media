@@ -11,7 +11,16 @@ import Name from "./components/Name";
 import Menu from "./components/Menu";
 
 const Post = ({ post, menuState, setMenuState }) => {
-  const { firstname, lastname, username, _id, createdAt, content } = post;
+  const {
+    firstname,
+    lastname,
+    username,
+    _id,
+    createdAt,
+    content,
+    imageUrl,
+    location,
+  } = post;
   const [editModal, setEditModal] = useState(false);
   const user = useSelector((state) => state?.auth?.user);
   const daysCount = useDaysCount(createdAt);
@@ -41,7 +50,10 @@ const Post = ({ post, menuState, setMenuState }) => {
             toggleModal={toggleModal}
           />
         </PostHeader>
-        <PostContent onClick={openPost}>{content}</PostContent>
+        <PostContent onClick={openPost}>
+          {imageUrl && <PostImage src={imageUrl} alt="post" loading="lazy" />}
+          {content}
+        </PostContent>
         <PostIcons>
           <Like postId={_id} />
           <ion-icon
@@ -51,6 +63,12 @@ const Post = ({ post, menuState, setMenuState }) => {
           ></ion-icon>
           <Bookmark postId={_id} />
         </PostIcons>
+        {location && (
+          <Location>
+            <ion-icon name="location"></ion-icon>
+            {location}
+          </Location>
+        )}
         <DayPosted>{daysCount}</DayPosted>
       </PostContainer>
     </PostWrapper>
@@ -87,11 +105,23 @@ const PostHeader = styled.header`
 
 const PostContent = styled.div`
   margin-left: 60px;
-  padding-bottom: 2rem;
   cursor: pointer;
 `;
 
 const DayPosted = styled.p`
   float: right;
+  color: ${({ theme }) => theme.colorSecondary};
+`;
+
+const PostImage = styled.img`
+  width: 30%;
+  object-fit: contain;
+  display: block;
+  margin: 0.5rem auto;
+`;
+
+const Location = styled.p`
+  float: left;
+  margin-left: 60px;
   color: ${({ theme }) => theme.colorSecondary};
 `;

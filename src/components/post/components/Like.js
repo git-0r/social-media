@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { like } from "../../../redux/likeSlice";
 
 const Like = ({ postId }) => {
-  const { _id } = useSelector((state) => state?.auth?.user);
+  const user = useSelector((state) => state?.auth?.user);
   const { content } = useSelector((state) => state?.likes);
   const dispatch = useDispatch();
 
   const likePost = () => {
-    _id && dispatch(like({ postId, userId: _id }));
+    user?._id && dispatch(like({ postId, userId: user?._id }));
   };
 
   return (

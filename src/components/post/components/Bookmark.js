@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { bookmark } from "../../../redux/bookmarkSlice";
 
 const Bookmark = ({ postId }) => {
-  const { _id } = useSelector((state) => state?.auth?.user);
+  const user = useSelector((state) => state?.auth?.user);
   const { content } = useSelector((state) => state?.bookmarks);
   const dispatch = useDispatch();
 
   const bookmarkPost = () => {
-    _id && dispatch(bookmark({ postId, userId: _id }));
+    user?._id && dispatch(bookmark({ postId, userId: user?._id }));
   };
 
   return (

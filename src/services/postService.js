@@ -9,10 +9,9 @@ export const postService = async ({ formData, userId }, thunkAPI) => {
   const response = await fetch(`${BASE_URL}/post/${userId}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       Authorization: token(),
     },
-    body: JSON.stringify(formData),
+    body: formData,
   });
   if (response.ok) {
     thunkAPI.dispatch(fetchFeed({ userId, type: "refresh" }));

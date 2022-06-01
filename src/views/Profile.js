@@ -59,7 +59,7 @@ const Profile = () => {
           {joinedOn}
         </JoinDate>
       </UserInfo>
-      {editForm && <EditProfileForm setEditForm={setEditForm} />}
+      {editForm && currentUser && <EditProfileForm setEditForm={setEditForm} />}
     </>
   );
 };

@@ -1,9 +1,11 @@
+import { forwardRef } from "react";
 import styled from "styled-components";
 
-const PostInput = ({ inputValue, updateInputValue }) => {
+const PostInput = forwardRef(({ inputValue, updateInputValue }, ref) => {
   return (
     <>
       <Input
+        ref={ref}
         placeholder="How Are You Feeling Today?"
         minLength="3"
         name="content"
@@ -13,7 +15,7 @@ const PostInput = ({ inputValue, updateInputValue }) => {
       />
     </>
   );
-};
+});
 
 export default PostInput;
 
@@ -24,7 +26,7 @@ const Input = styled.textarea`
   font-family: inherit;
   font-size: 1.2rem;
   padding: 0.5rem 1rem;
-  border-radius: 5px;
+  border: transparent;
   resize: none;
   &:focus {
     outline: transparent;

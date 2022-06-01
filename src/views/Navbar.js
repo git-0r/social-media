@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Navbar = ({ theme, toggle }) => {
   return (
     <Nav>
-      <Logo>
+      <Logo to="/">
         <ion-icon name="flash" size="large"></ion-icon>
         <p>Social</p>
       </Logo>
@@ -20,12 +21,14 @@ const Navbar = ({ theme, toggle }) => {
 
 export default Navbar;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
   display: flex;
   gap: 1rem;
   font-size: 1.5rem;
   align-items: center;
   font-family: inherit;
+  text-decoration: none;
+  color: inherit;
 `;
 
 const Nav = styled.nav`

@@ -2,10 +2,19 @@ import Picker from "emoji-picker-react";
 import { useState } from "react";
 import styled from "styled-components";
 
-const EmojiPicker = ({ inputValue, setInputValue }) => {
+const EmojiPicker = ({ inputRef, inputValue, setInputValue }) => {
   const [emojiPicker, setEmojiPicker] = useState(false);
   const onEmojiClick = (event, emojiObject) => {
-    setInputValue(inputValue + emojiObject.emoji);
+    const cursor = inputRef.current.selectionStart;
+
+    setInputValue(
+      inputValue.slice(0, cursor) + emojiObject.emoji + inputValue.slice(cursor)
+    );
+    const newCursor = cursor + emojiObject.emoji.length;
+    setTimeout(
+      () => inputRef.current.setSelectionRange(newCursor, newCursor),
+      0
+    );
   };
   const toggleEmojiPicker = () => {
     setEmojiPicker((state) => !state);
@@ -40,4 +49,7 @@ const EmojiPickerContainer = styled.div`
 
 const EmojiPickerIcon = styled.span`
   cursor: pointer;
+  &:hover {
+    color: ${({ theme }) => theme.blueColor};
+  }
 `;
