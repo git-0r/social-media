@@ -1,6 +1,6 @@
 export const getLocationFromAPI = async ({ longitude, latitude }) => {
   const response = await fetch(
-    `https://api.positionstack.com/v1/reverse?access_key=${process.env.REACT_APP_GEOLOCATION_KEY}&query=${latitude},${longitude}&limit=1`
+    `${process.env.REACT_APP_BASE_URL}/userlocation/?latitude=${latitude}&longitude=${longitude}`
   );
   return await response.json();
 };
